@@ -7,6 +7,7 @@ import os
 import sys
 import time
 import math
+import logging
 
 import torch.nn as nn
 import torch.nn.init as init
@@ -122,3 +123,19 @@ def format_time(seconds):
     if f == '':
         f = '0ms'
     return f
+
+
+def set_logger(log_path):
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+
+    if not logger.handlers:
+        # Logging to a file
+        file_handler = logging.FileHandler(log_path)
+        file_handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s: %(message)s'))
+        logger.addHandler(file_handler)
+
+        # Logging to console
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(logging.Formatter('%(message)s'))
+        logger.addHandler(stream_handler)
